@@ -55,6 +55,7 @@
 
   <body>
     <img src="prompt-images/sf-0-do.png" width="320" height="240" id="prompt" />
+    <button id="change">Change</button>
 
     <button id="start-camera">Start Camera</button>
 
@@ -66,7 +67,7 @@
 
       <div class="column">
         <canvas id="canvas" width="320" height="240"></canvas>
-        <button id="Save" style="display: block;">save</button>
+        <button id="save" style="display: block;">Save</button>
       </div>
     </div>
 
@@ -83,11 +84,13 @@
         'prompt-images/sf-6-ti.png'
       )
 
-      let camera_button = document.querySelector('#start-camera')
       let video = document.querySelector('#video')
+      let canvas = document.querySelector('#canvas')
+
+      let camera_button = document.querySelector('#start-camera')
+      let change_button = document.querySelector('#change')
       let capture_button = document.querySelector('#capture')
       let save_button = document.querySelector('#save')
-      let canvas = document.querySelector('#canvas')
 
       var r = null
       var a_image = null
@@ -137,6 +140,10 @@
           a_image.href = URL.createObjectURL(blob)
           a_image.download = filename
         }, 'image/png')
+      })
+
+      change_button.addEventListener('click', function () {
+        choosePrompt()
       })
 
       save_button.addEventListener('click', function () {
