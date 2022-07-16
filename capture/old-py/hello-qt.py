@@ -14,6 +14,7 @@ class MyWidget(QtWidgets.QWidget):
                                      alignment=QtCore.Qt.AlignCenter)
 
         self.layout = QtWidgets.QVBoxLayout(self)
+
         self.layout.addWidget(self.text)
         self.layout.addWidget(self.button)
 

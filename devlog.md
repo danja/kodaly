@@ -1,4 +1,31 @@
-_2022-07-14_
+**2022-07-16**
+
+I felt like I was making progress on Python/OpenCV/QT image capture app, but kept running into system problems, generally Wayland-related.
+
+So to avoid frustration, I'm going to flip to Javascript in the browser.
+
+I've got xampp running on localhost, pop in a pointer to my working dir :
+
+sudo ln -s /home/danny/micros/kodaly /opt/lampp/htdocs/kodaly
+
+not sure if necessary, but I added
+
+brave://flags/#unsafely-treat-insecure-origin-as-secure
+
+copied demo from https://usefulangle.com/post/352/javascript-capture-image-from-camera
+
+**2022-07-15**
+
+Key Note
+0 Do
+1 Re
+2 Mi
+3 Fa
+4 Sol
+5 La
+6 Ti
+
+**2022-07-14**
 
 Ok, got image capture from USB camera working:
 
@@ -16,7 +43,7 @@ python3 hello-qt.py
 
 works!
 
-_2022-07-13_
+**2022-07-13**
 
 [How to capture a image from webcam in Python?](https://www.geeksforgeeks.org/how-to-capture-a-image-from-webcam-in-python/)
 

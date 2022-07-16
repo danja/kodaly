@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Capture</title>
+
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
+    <style type="text/css">
+      #start-camera {
+        margin-top: 50px;
+      }
+
+      #prompt {
+        display: block;
+        margin: 20px auto 0 auto;
+      }
+
+      button {
+        width: 120px;
+        padding: 5px;
+        display: block;
+        margin: 10px auto;
+        border: 2px solid #111111;
+        cursor: pointer;
+        background-color: white;
+      }
+
+      .row {
+        display: flex;
+      }
+
+      .column {
+        flex: 33.33%;
+        padding: 5px;
+      }
+
+      #video {
+        display: block;
+        margin: 20px auto 0 auto;
+      }
+
+      #capture {
+        display: none;
+      }
+
+      #canvas {
+        display: block;
+        margin: 0 auto 20px auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <img src="prompt-images/sf-0-do.png" width="320" height="240" id="prompt" />
+
+    <button id="start-camera">Start Camera</button>
+
+    <div class="row">
+      <div class="column">
+        <video id="video" width="320" height="240" autoplay=""></video>
+        <button id="capture" style="display: block;">Capture</button>
+      </div>
+
+      <div class="column">
+        <canvas id="canvas" width="320" height="240"></canvas>
+        <button id="Save" style="display: block;">save</button>
+      </div>
+    </div>
+
+    <a id="image-anchor" style="display: none" />
+
+    <script>
+      let prompts = new Array(
+        'prompt-images/sf-0-do.png',
+        'prompt-images/sf-1-re.png',
+        'prompt-images/sf-2-mi.png',
+        'prompt-images/sf-3-fa.png',
+        'prompt-images/sf-4-sol.png',
+        'prompt-images/sf-5-la.png',
+        'prompt-images/sf-6-ti.png'
+      )
+
+      let camera_button = document.querySelector('#start-camera')
+      let video = document.querySelector('#video')
+      let capture_button = document.querySelector('#capture')
+      let save_button = document.querySelector('#save')
+      let canvas = document.querySelector('#canvas')
+
+      var r = null
+      var a_image = null
+
+      choosePrompt()
+
+      function choosePrompt () {
+        r = Math.floor(Math.random() * prompts.length)
+        document.getElementById('prompt').src = prompts[r]
+      }
+
+      camera_button.addEventListener('click', async function () {
+        let stream = null
+
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false
+          })
+        } catch (error) {
+          alert(error.message)
+          return
+        }
+
+        video.srcObject = stream
+        //   video.style.display = 'block'
+        camera_button.style.display = 'none'
+        //  capture_button.style.display = 'block'
+      })
+
+      capture_button.addEventListener('click', function () {
+        canvas
+          .getContext('2d')
+          .drawImage(video, 0, 0, canvas.width, canvas.height)
+
+        let filename =
+          'sf-' +
+          r +
+          '_' +
+          Math.random()
+            .toString(36)
+            .slice(2, 10) +
+          '.png'
+
+        let blob = document.querySelector('#canvas').toBlob(function (blob) {
+          a_image = document.querySelector('#image-anchor')
+          a_image.href = URL.createObjectURL(blob)
+          a_image.download = filename
+        }, 'image/png')
+      })
+
+      save_button.addEventListener('click', function () {
+        a_image.click()
+        choosePrompt()
+      })
+    </script>
+  </body>
+</html>
