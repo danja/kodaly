@@ -84,6 +84,16 @@
         'prompt-images/sf-6-ti.png'
       )
 
+      let tones = new Array(
+        261.63,
+        293.66,
+        329.63,
+        349.23,
+        392.0,
+        440.0,
+        493.88
+      )
+
       let video = document.querySelector('#video')
       let canvas = document.querySelector('#canvas')
 
@@ -100,6 +110,7 @@
       function choosePrompt () {
         r = Math.floor(Math.random() * prompts.length)
         document.getElementById('prompt').src = prompts[r]
+        play_tone()
       }
 
       camera_button.addEventListener('click', async function () {
@@ -150,6 +161,19 @@
         a_image.click()
         choosePrompt()
       })
+
+      function play_tone () {
+        var context = new AudioContext()
+        var oscillator = context.createOscillator()
+        oscillator.type = 'sine'
+        oscillator.frequency.value = tones[r]
+        oscillator.connect(context.destination)
+        oscillator.start()
+
+        setTimeout(function () {
+          oscillator.stop()
+        }, 500)
+      }
     </script>
   </body>
 </html>
