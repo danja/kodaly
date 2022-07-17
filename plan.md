@@ -1,3 +1,19 @@
+### Immediate TODOs
+
+** tidy capture code **
+
+- comments
+- turn sound & vid off
+- make buttons appear at appropriate time
+
+- convert to greyscale 28x28 (extra canvas)
+
+** try the MNIST solver **
+
+** figure out MNIST format **
+
+** write up, make live/public **
+
 ## Requirements/Plan
 
 Get things working on desktop, later (if I have the energy), port to ESP32 CAM.

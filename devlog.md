@@ -1,3 +1,20 @@
+**2022-07-17**
+
+I set train.py running yesterday, still going today...
+
+main
+p = argparse.ArgumentParser()
+p.add_argument("--seed", default=0, type=int)
+p.add_argument("--trials", default=15, type=int)
+p.add_argument("--epochs", default=150, type=int)
+p.add_argument("--kernel_size", default=5, type=int)
+p.add_argument("--gpu", default=0, type=int)
+p.add_argument("--logdir", default="temp")
+args = p.parse_args()
+...
+
+def run(p_seed=0, p_epochs=150, p_kernel_size=5, p_logdir="temp"):
+
 **2022-07-16**
 
 I felt like I was making progress on Python/OpenCV/QT image capture app, but kept running into system problems, generally Wayland-related.
@@ -12,7 +29,25 @@ not sure if necessary, but I added
 
 brave://flags/#unsafely-treat-insecure-origin-as-secure
 
-copied demo from https://usefulangle.com/post/352/javascript-capture-image-from-camera
+really good progress!!!!!
+
+mostly working
+
+---
+
+Installed PyTorch (CPU-only) according to : https://pytorch.org/get-started/locally/
+
+pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
+
+pip install torch-summary
+
+had to tweak train.py code, had a bit to exit if no GPU
+
+running
+
+time python3 train.py --seed=0 --trial=1 --kernel_size=5 --gpu=0 --logdir=modelM5
+
+(trial=1, not 10 as in docs)
 
 **2022-07-15**
 

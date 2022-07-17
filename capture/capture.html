@@ -55,19 +55,20 @@
 
   <body>
     <img src="prompt-images/sf-0-do.png" width="320" height="240" id="prompt" />
-    <button id="change">Change</button>
 
+    <button id="change">Change</button>
     <button id="start-camera">Start Camera</button>
+    <button id="stop-camera" style="display: none">Stop Camera</button>
 
     <div class="row">
       <div class="column">
         <video id="video" width="320" height="240" autoplay=""></video>
-        <button id="capture" style="display: block;">Capture</button>
+        <button id="capture" style="display: none;">Capture</button>
       </div>
 
       <div class="column">
         <canvas id="canvas" width="320" height="240"></canvas>
-        <button id="save" style="display: block;">Save</button>
+        <button id="save" style="display: none;">Save</button>
       </div>
     </div>
 
@@ -98,10 +99,12 @@
       let canvas = document.querySelector('#canvas')
 
       let camera_button = document.querySelector('#start-camera')
+      let stop_camera_button = document.querySelector('#stop-camera')
       let change_button = document.querySelector('#change')
       let capture_button = document.querySelector('#capture')
       let save_button = document.querySelector('#save')
 
+      let stream = null
       var r = null
       var a_image = null
 
@@ -114,8 +117,6 @@
       }
 
       camera_button.addEventListener('click', async function () {
-        let stream = null
-
         try {
           stream = await navigator.mediaDevices.getUserMedia({
             video: true,
@@ -127,9 +128,17 @@
         }
 
         video.srcObject = stream
-        //   video.style.display = 'block'
+        video.style.display = 'block'
         camera_button.style.display = 'none'
-        //  capture_button.style.display = 'block'
+        capture_button.style.display = 'block'
+        stop_camera_button.style.display = 'block'
+      })
+
+      stop_camera_button.addEventListener('click', function () {
+        video.pause()
+        video.src = ''
+        stream.getTracks()[0].stop()
+        console.log('video off')
       })
 
       capture_button.addEventListener('click', function () {
@@ -151,6 +160,8 @@
           a_image.href = URL.createObjectURL(blob)
           a_image.download = filename
         }, 'image/png')
+
+        save_button.style.display = 'block'
       })
 
       change_button.addEventListener('click', function () {

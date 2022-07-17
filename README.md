@@ -4,6 +4,8 @@ Simple hand signal to pitch
 
 See **Zoltan who?** at https://elfquake.wordpress.com/2022/07/13/back-to-it/
 
+https://www.ars-nova.com/Theory%20Q&A/Q35.html
+
 ## Status : 2022-07-14
 
 [Plan](https://github.com/danja/kodaly/blob/main/plan.md) roughly figured out.
