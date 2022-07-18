@@ -13,3 +13,6 @@ https://www.ars-nova.com/Theory%20Q&A/Q35.html
 Started on training image capture code (using Python3, OpenCV & QT)
 
 Located a promising-looking model : [MnistSimpleCNN](https://github.com/ansh941/MnistSimpleCNN) (it's the most accurate on this [list of MNIST classifiers](https://paperswithcode.com/sota/image-classification-on-mnist), seems well documented, has PyTorch code)
+
+- [The MNIST Database of handwritten digits](http://yann.lecun.com/exdb/mnist/)
+- [Fashion MNIST Database](https://github.com/zalandoresearch/fashion-mnist)

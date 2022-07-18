@@ -62,8 +62,8 @@
       </div>
 
       <div class="column">
-        <canvas id="canvas" width="320" height="240"></canvas>
-        <button id="save" style="display: none;">Save</button>
+        <canvas id="color-canvas" width="320" height="240"></canvas>
+        <button id="save-color" style="display: none;">Save</button>
       </div>
 
       <div class="column">
@@ -107,7 +107,7 @@
       )
 
       let video = document.querySelector('#video')
-      let canvas = document.querySelector('#canvas')
+      let color_canvas = document.querySelector('#color-canvas')
       let grey_canvas = document.querySelector('#grey-canvas')
       let small_canvas = document.querySelector('#small-canvas')
       let hidden_canvas = document.querySelector('#hidden-canvas')
@@ -116,13 +116,15 @@
       let stop_camera_button = document.querySelector('#stop-camera')
       let change_button = document.querySelector('#change')
       let capture_button = document.querySelector('#capture')
-      let save_button = document.querySelector('#save')
+      let save_color_button = document.querySelector('#save-color')
       let save_grey_button = document.querySelector('#save-grey')
       let save_small_button = document.querySelector('#save-small')
 
+      let image_anchor = document.querySelector('#image-anchor')
+
       let stream = null
       var r = null
-      var a_image = null
+      // var image_anchor = null
 
       choosePrompt()
 
@@ -167,13 +169,62 @@
         stop_camera_button.style.display = 'none'
       })
 
-      capture_button.addEventListener('click', function () {
-        canvas
-          .getContext('2d')
-          .drawImage(video, 0, 0, canvas.width, canvas.height)
+      document.addEventListener('keypress', function (event) {
+        //  console.log('keycode : ' + event.key)
+        if (event.key === 'q') {
+          event.preventDefault()
+          captureImage()
+        }
+        if (event.key === 'w') {
+          event.preventDefault()
+          saveColor()
+        }
+        if (event.key === 'e') {
+          event.preventDefault()
+          saveGrey()
+        }
+        if (event.key === 'r') {
+          event.preventDefault()
+          saveSmall()
+        }
+      })
 
+      capture_button.addEventListener('click', captureImage)
+      save_color_button.addEventListener('click', saveColor)
+      save_grey_button.addEventListener('click', saveGrey)
+      save_small_button.addEventListener('click', saveSmall)
+
+      function saveColor () {
+        saveCanvas(color_canvas, 'color')
+      }
+
+      function saveGrey () {
+        saveCanvas(grey_canvas, 'grey')
+      }
+
+      function saveSmall () {
+        console.log('saveSmall')
+        saveCanvas(small_canvas, 'small')
+      }
+
+      function captureImage () {
+        color_canvas
+          .getContext('2d')
+          .drawImage(video, 0, 0, color_canvas.width, color_canvas.height)
+
+        makeGrey()
+
+        save_color_button.style.display = 'block'
+        save_grey_button.style.display = 'block'
+        save_small_button.style.display = 'block'
+      }
+
+      function saveCanvas (canvas, label) {
+        console.log('saveCanvas ' + label)
         let filename =
           'sf-' +
+          label +
+          '-' +
           r +
           '_' +
           Math.random()
@@ -181,30 +232,37 @@
             .slice(2, 10) +
           '.png'
 
-        let blob = document.querySelector('#canvas').toBlob(function (blob) {
-          a_image = document.querySelector('#image-anchor')
-          a_image.href = URL.createObjectURL(blob)
-          a_image.download = filename
+        // image_anchor = document.querySelector('#image-anchor')
+
+        //   let blob =
+        canvas.toBlob(function (blob) {
+          image_anchor.href = URL.createObjectURL(blob)
+          image_anchor.download = filename
+          console.log('filename ' + filename)
         }, 'image/png')
 
-        save_button.style.display = 'block'
-        save_small_button.style.display = 'block'
-        makeGrey()
-      })
+        image_anchor.click()
+      }
 
       function makeGrey () {
-        let color_context = canvas.getContext('2d')
+        let color_context = color_canvas.getContext('2d')
         let grey_context = grey_canvas.getContext('2d')
         let small_context = small_canvas.getContext('2d')
         let hidden_context = hidden_canvas.getContext('2d')
 
-        grey_context.drawImage(canvas, 0, 0, canvas.width, canvas.height)
+        grey_context.drawImage(
+          color_canvas,
+          0,
+          0,
+          color_canvas.width,
+          color_canvas.height
+        )
 
         let imgData = color_context.getImageData(
           0,
           0,
-          canvas.width,
-          canvas.height
+          color_canvas.width,
+          color_canvas.height
         )
 
         let pixels = imgData.data
@@ -244,15 +302,7 @@
 
         small_context.scale(28 / 320, 28 / 240)
         small_context.drawImage(hidden_canvas, 0, 0)
-
-        save_grey_button.style.display = 'block'
-        save_small_button.style.display = 'block'
       }
-
-      save_button.addEventListener('click', function () {
-        a_image.click()
-        choosePrompt()
-      })
 
       function play_tone () {
         var context = new AudioContext()
