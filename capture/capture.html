@@ -72,7 +72,7 @@
       </div>
 
       <div class="column">
-        <canvas id="small-canvas" width="28" height="28"></canvas>
+        <canvas id="small-canvas" width="320" height="240"></canvas>
         <button id="save-small" style="display: none;">Save</button>
       </div>
     </div>
@@ -169,8 +169,11 @@
         stop_camera_button.style.display = 'none'
       })
 
-      document.addEventListener('keypress', function (event) {
+      document.addEventListener('keydown', function (event) {
         //  console.log('keycode : ' + event.key)
+        if (event.repeat) {
+          return
+        }
         if (event.key === 'q') {
           event.preventDefault()
           captureImage()
@@ -247,8 +250,6 @@
       function makeGrey () {
         let color_context = color_canvas.getContext('2d')
         let grey_context = grey_canvas.getContext('2d')
-        let small_context = small_canvas.getContext('2d')
-        let hidden_context = hidden_canvas.getContext('2d')
 
         grey_context.drawImage(
           color_canvas,
@@ -297,10 +298,16 @@
         }
         grey_context.putImageData(imgData, 0, 0)
 
+        small_canvas = document.querySelector('#small-canvas')
+        hidden_canvas = document.querySelector('#hidden-canvas')
+        let small_context = small_canvas.getContext('2d')
+        let hidden_context = hidden_canvas.getContext('2d')
+
         // scale size via a temp canvas
         hidden_context.putImageData(imgData, 0, 0)
 
         small_context.scale(28 / 320, 28 / 240)
+
         small_context.drawImage(hidden_canvas, 0, 0)
       }
 

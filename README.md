@@ -16,3 +16,5 @@ Located a promising-looking model : [MnistSimpleCNN](https://github.com/ansh941/
 
 - [The MNIST Database of handwritten digits](http://yann.lecun.com/exdb/mnist/)
 - [Fashion MNIST Database](https://github.com/zalandoresearch/fashion-mnist)
+
+* [Converting MNIST dataset...](https://medium.com/the-owl/converting-mnist-data-in-idx-format-to-python-numpy-array-5cb9126f99f1)
