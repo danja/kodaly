@@ -72,7 +72,7 @@
       </div>
 
       <div class="column">
-        <canvas id="small-canvas" width="320" height="240"></canvas>
+        <canvas id="small-canvas" width="28" height="28"></canvas>
         <button id="save-small" style="display: none;">Save</button>
       </div>
     </div>
@@ -216,6 +216,7 @@
           .drawImage(video, 0, 0, color_canvas.width, color_canvas.height)
 
         makeGrey()
+        makeSmall()
 
         save_color_button.style.display = 'block'
         save_grey_button.style.display = 'block'
@@ -297,17 +298,33 @@
           pixels[i + 2] = lightness
         }
         grey_context.putImageData(imgData, 0, 0)
+      }
 
-        small_canvas = document.querySelector('#small-canvas')
-        hidden_canvas = document.querySelector('#hidden-canvas')
+      function makeSmall () {
+        let grey_canvas = document.querySelector('#grey-canvas')
+        let small_canvas = document.querySelector('#small-canvas')
+        let hidden_canvas = document.querySelector('#hidden-canvas')
+
+        let grey_context = grey_canvas.getContext('2d')
         let small_context = small_canvas.getContext('2d')
         let hidden_context = hidden_canvas.getContext('2d')
 
-        // scale size via a temp canvas
-        hidden_context.putImageData(imgData, 0, 0)
+        //  reset the transform by loading the identity matrix
+        small_context.setTransform(1, 0, 0, 1, 0, 0)
 
+        let imageData = grey_context.getImageData(
+          0,
+          0,
+          grey_canvas.width,
+          grey_canvas.height
+        )
+
+        // scale size via a temp canvas
+        hidden_context.putImageData(imageData, 0, 0)
+        //small_context.scale(0.5, 0.5)
         small_context.scale(28 / 320, 28 / 240)
 
+        console.log('small')
         small_context.drawImage(hidden_canvas, 0, 0)
       }
 

@@ -1,6 +1,19 @@
+**2022-07-20**
+
+Hah! I had a funny bug. So when I click the 'Capture' button, the code takes a photo, makes it monochrome, scales it down to about 1/10 the size.
+First time, it worked. But when I click capture again, the picture should be replaced by the new one. It didn't seem to be.
+Just realised what was happening.
+On second capture it was scaling the scaled image, so 1/100 the original size, drawing that on top of the previous. Tiny tiny!
+Needed to reset the transform with identity :
+small_context.setTransform(1, 0, 0, 1, 0, 0)
+
 **2022-07-17**
 
 I set train.py running yesterday, still going today...
+
+time python3 train.py --seed=0 --trial=1 --kernel_size=5 --gpu=0 --logdir=modelM5
+
+PS. it ran for 26 hours
 
 main
 p = argparse.ArgumentParser()
