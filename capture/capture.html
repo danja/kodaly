@@ -141,7 +141,7 @@
       // Give a new prompt image & tone
       function choosePrompt () {
         promptNumber = Math.floor(Math.random() * prompts.length)
-        document.getElementById('prompt').src = prompts[r]
+        document.getElementById('prompt').src = prompts[promptNumber]
         play_tone()
       }
 
@@ -241,7 +241,7 @@
       }
 
       function saveCanvas (canvas, label) {
-        console.log('saveCanvas ' + label)
+        // console.log('saveCanvas ' + label)
         let filename =
           'sf-' +
           label +
@@ -257,10 +257,11 @@
         canvas.toBlob(function (blob) {
           image_anchor.href = URL.createObjectURL(blob)
           image_anchor.download = filename
-          console.log('filename ' + filename)
-        }, 'image/png')
+          // console.log('filename ' + filename)
 
-        image_anchor.click()
+          // use the hidden <a> to provide download action
+          image_anchor.click()
+        }, 'image/png')
       }
 
       function makeGrey () {
@@ -339,7 +340,7 @@
         //small_context.scale(0.5, 0.5)
         small_context.scale(28 / 320, 28 / 240)
 
-        console.log('small')
+        // console.log('small')
         small_context.drawImage(hidden_canvas, 0, 0)
       }
 
@@ -347,7 +348,7 @@
         var context = new AudioContext()
         var oscillator = context.createOscillator()
         oscillator.type = 'sine'
-        oscillator.frequency.value = tones[r]
+        oscillator.frequency.value = tones[promptNumber]
         oscillator.connect(context.destination)
         oscillator.start()
 
