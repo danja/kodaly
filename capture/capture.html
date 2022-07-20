@@ -49,31 +49,35 @@
   </head>
 
   <body>
+    <a id="top"><h3>Kodaly Capture</h3></a>
+    <!-- a href="#instructions">Instructions</a -->
+
+    <!-- hand signal prompt-->
     <img src="prompt-images/sf-0-do.png" width="320" height="240" id="prompt" />
 
-    <button id="change">Change</button>
+    <button id="change">Change [q]</button>
     <button id="start-camera">Start Camera</button>
     <button id="stop-camera" style="display: none">Stop Camera</button>
 
     <div class="row">
       <div class="column">
         <video id="video" width="320" height="240" autoplay=""></video>
-        <button id="capture" style="display: none;">Capture</button>
+        <button id="capture" style="display: none;">Capture [w]</button>
       </div>
 
       <div class="column">
         <canvas id="color-canvas" width="320" height="240"></canvas>
-        <button id="save-color" style="display: none;">Save</button>
+        <button id="save-color" style="display: none;">Save [e]</button>
       </div>
 
       <div class="column">
         <canvas id="grey-canvas" width="320" height="240"></canvas>
-        <button id="save-grey" style="display: none;">Save</button>
+        <button id="save-grey" style="display: none;">Save [r]</button>
       </div>
 
       <div class="column">
         <canvas id="small-canvas" width="28" height="28"></canvas>
-        <button id="save-small" style="display: none;">Save</button>
+        <button id="save-small" style="display: none;">Save [t]</button>
       </div>
     </div>
 
@@ -85,7 +89,11 @@
     ></canvas>
     <a id="image-anchor" style="display: none" />
 
+    <a id="Instructions"><h3>Instructions</h3></a>
+    <p></p>
+    <a href="#top">Back to Top</a>
     <script>
+      // hand signal image files
       let prompts = new Array(
         'prompt-images/sf-0-do.png',
         'prompt-images/sf-1-re.png',
@@ -96,17 +104,19 @@
         'prompt-images/sf-6-ti.png'
       )
 
+      // note frequencies in Hz
       let tones = new Array(
-        261.63,
-        293.66,
-        329.63,
-        349.23,
-        392.0,
-        440.0,
-        493.88
+        261.63, // C = do
+        293.66, // D = re
+        329.63, // E = mi
+        349.23, // F = fa
+        392.0, // G = sol
+        440.0, // A = la
+        493.88 // B = ti
       )
 
       let video = document.querySelector('#video')
+
       let color_canvas = document.querySelector('#color-canvas')
       let grey_canvas = document.querySelector('#grey-canvas')
       let small_canvas = document.querySelector('#small-canvas')
@@ -120,16 +130,17 @@
       let save_grey_button = document.querySelector('#save-grey')
       let save_small_button = document.querySelector('#save-small')
 
+      // used for triggering Save
       let image_anchor = document.querySelector('#image-anchor')
 
       let stream = null
-      var r = null
-      // var image_anchor = null
+      var promptNumber = null
 
       choosePrompt()
 
+      // Give a new prompt image & tone
       function choosePrompt () {
-        r = Math.floor(Math.random() * prompts.length)
+        promptNumber = Math.floor(Math.random() * prompts.length)
         document.getElementById('prompt').src = prompts[r]
         play_tone()
       }
@@ -138,6 +149,7 @@
         choosePrompt()
       })
 
+      // enable camera
       camera_button.addEventListener('click', async function () {
         try {
           stream = await navigator.mediaDevices.getUserMedia({
@@ -156,6 +168,7 @@
         stop_camera_button.style.display = 'block'
       })
 
+      // disable camera
       stop_camera_button.addEventListener('click', function () {
         video.pause()
         video.src = ''
@@ -176,17 +189,21 @@
         }
         if (event.key === 'q') {
           event.preventDefault()
-          captureImage()
+          choosePrompt()
         }
         if (event.key === 'w') {
           event.preventDefault()
-          saveColor()
+          captureImage()
         }
         if (event.key === 'e') {
           event.preventDefault()
-          saveGrey()
+          saveColor()
         }
         if (event.key === 'r') {
+          event.preventDefault()
+          saveGrey()
+        }
+        if (event.key === 't') {
           event.preventDefault()
           saveSmall()
         }
@@ -206,7 +223,6 @@
       }
 
       function saveSmall () {
-        console.log('saveSmall')
         saveCanvas(small_canvas, 'small')
       }
 
@@ -218,6 +234,7 @@
         makeGrey()
         makeSmall()
 
+        // show buttons
         save_color_button.style.display = 'block'
         save_grey_button.style.display = 'block'
         save_small_button.style.display = 'block'
@@ -229,14 +246,12 @@
           'sf-' +
           label +
           '-' +
-          r +
+          promptNumber +
           '_' +
           Math.random()
             .toString(36)
             .slice(2, 10) +
           '.png'
-
-        // image_anchor = document.querySelector('#image-anchor')
 
         //   let blob =
         canvas.toBlob(function (blob) {
@@ -260,14 +275,14 @@
           color_canvas.height
         )
 
-        let imgData = color_context.getImageData(
+        let imageData = color_context.getImageData(
           0,
           0,
           color_canvas.width,
           color_canvas.height
         )
 
-        let pixels = imgData.data
+        let pixels = imageData.data
 
         let min_lightness = 128
         let max_lightness = 128
@@ -297,7 +312,7 @@
           pixels[i + 1] = lightness
           pixels[i + 2] = lightness
         }
-        grey_context.putImageData(imgData, 0, 0)
+        grey_context.putImageData(imageData, 0, 0)
       }
 
       function makeSmall () {
