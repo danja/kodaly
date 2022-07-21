@@ -90,6 +90,17 @@
     <a id="image-anchor" style="display: none" />
 
     <a id="Instructions"><h3>Instructions</h3></a>
+    <h4>
+      Practice
+    </h4>
+    <p>
+      Click the 'Change' button or press the 'q' key to be presented with
+      randomly-chosen hand signals and a corresponding tone.
+    </p>
+    <p>
+      Begin by clicking the 'Start Camera' button. You will probably be asked if
+      you want to allow the camera to be accessed - accept this.
+    </p>
     <p></p>
     <a href="#top">Back to Top</a>
     <script>
@@ -103,6 +114,7 @@
         'prompt-images/sf-5-la.png',
         'prompt-images/sf-6-ti.png'
       )
+      let promptLabels = new Array('do', 're', 'mi', 'fa', 'sol', 'la', 'ti')
 
       // note frequencies in Hz
       let tones = new Array(
@@ -243,11 +255,8 @@
       function saveCanvas (canvas, label) {
         // console.log('saveCanvas ' + label)
         let filename =
-          'sf-' +
-          label +
-          '-' +
-          promptNumber +
-          '_' +
+          'sf-' + label + '-' + promptNumber + '-' + promptLabels[promptNumber]
+        '_' +
           Math.random()
             .toString(36)
             .slice(2, 10) +
