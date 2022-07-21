@@ -1,30 +1,22 @@
 ### Immediate TODOs
 
-** tidy capture code **
-
-- comments
-- turn sound & vid off
-- make buttons appear at appropriate time
-
-- convert to greyscale 28x28 (extra canvas)
-
-** try the MNIST solver **
-
-** figure out MNIST format **
-
-** write up, make live/public **
+- figure out MNIST format
+- write up
+- get working on mobile
 
 ## Requirements/Plan
 
 Get things working on desktop, later (if I have the energy), port to ESP32 CAM.
 
-Python, PyTorch and/or TensorFlow
+Browser Javascript for training data capture
+
+Python, PyTorch and/or TensorFlow for machine learning
 
 ### Training Data
 
 Need to be able to produce a **lot** of (labelled) hand signal images.
 
-#### Make a little UI app :
+#### Make a little UI app : (mostly done)
 
 - image area
 - buttons : 'Prompt', 'Capture'
@@ -50,3 +42,5 @@ Script to process images + labels into MNIST format
 train with ^^
 
 ### Create runtime app
+
+Maybe start with original MNIST, show handwritten digit to the camera
