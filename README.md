@@ -2,11 +2,9 @@
 
 Simple hand signal to pitch
 
-Image capture browser app at : https://hyperdata.it/kodaly/
+Image capture browser app at : https://hyperdata.it/kodaly/capture/capture.html
 
-See **Zoltan who?** at https://elfquake.wordpress.com/2022/07/13/back-to-it/
-
-https://www.ars-nova.com/Theory%20Q&A/Q35.html
+Description : https://elfquake.wordpress.com/2022/07/22/kodaly-music-hand-signals/
 
 ## Status : 2022-07-21
 
@@ -24,3 +22,5 @@ Located a promising-looking model : [MnistSimpleCNN](https://github.com/ansh941/
 - [Fashion MNIST Database](https://github.com/zalandoresearch/fashion-mnist)
 
 * [Converting MNIST dataset...](https://medium.com/the-owl/converting-mnist-data-in-idx-format-to-python-numpy-array-5cb9126f99f1)
+
+  _Unless otherwise stated, all material is free to reuse under the MIT License and/or Creative Commons Attribution, [Danny Ayers](https://hyperdata.it) 2022_
